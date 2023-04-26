@@ -10,18 +10,21 @@ source:
   sha256: 7787bb0e8fa9e1333cd09a6fee913cae1e02ec26f91cabae9e821adf4cca4f5e
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
-  number: 1
+  # s390x is missing triad
+  skip: true  # [py<36 or s390x]
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vvv
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
+    - setuptools
+    - wheel
   run:
     - antlr4-python3-runtime >=4.11.1,<4.12
     - jinja2
-    - python >=3.6
+    - python
     - triad >=0.6.8
 
 test:
@@ -35,9 +38,13 @@ test:
 
 about:
   home: https://github.com/fugue-project/fugue-sql-antlr
-  summary: Fugue SQL Antlr Parser
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  summary: Fugue SQL Antlr Parser
+  description: Fugue SQL Antlr Parser
+  dev_url: https://github.com/fugue-project/fugue-sql-antlr/tree/0.1.6
+  doc_url: https://github.com/fugue-project/fugue-sql-antlr/blob/0.1.6/README.md
 
 extra:
   recipe-maintainers:
