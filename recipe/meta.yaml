@@ -43,8 +43,8 @@ about:
   license_file: LICENSE
   summary: Fugue SQL Antlr Parser
   description: Fugue SQL Antlr Parser
-  dev_url: https://github.com/fugue-project/fugue-sql-antlr/tree/0.1.6
-  doc_url: https://github.com/fugue-project/fugue-sql-antlr/blob/0.1.6/README.md
+  dev_url: https://github.com/fugue-project/fugue-sql-antlr
+  doc_url: https://github.com/fugue-project/fugue-sql-antlr/blob/master/README.md
 
 extra:
   recipe-maintainers:
