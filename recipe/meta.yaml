@@ -1,17 +1,17 @@
 {% set name = "fugue-sql-antlr" %}
-{% set version = "0.1.6" %}
+{% set version = "0.2.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/fugue-sql-antlr-{{ version }}.tar.gz
-  sha256: 7787bb0e8fa9e1333cd09a6fee913cae1e02ec26f91cabae9e821adf4cca4f5e
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/fugue-sql-antlr-{{ version }}.tar.gz
+  sha256: 22af96a6aa295441425482c6619daac1702de222c942ede12b36bc2e2993aa40
 
 build:
   # s390x is missing triad
-  skip: true  # [py<36 or s390x]
+  skip: true  # [py<38 or s390x]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vvv
 
@@ -22,10 +22,13 @@ requirements:
     - setuptools
     - wheel
   run:
-    - antlr4-python3-runtime >=4.11.1,<4.12
+    - antlr4-python3-runtime <4.12
     - jinja2
     - python
     - triad >=0.6.8
+    - packaging
+  run_constrained:
+    - fugue-sql-antlr-cpp ==0.2.2
 
 test:
   imports:
