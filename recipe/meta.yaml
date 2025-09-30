@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/fugue-project/fugue-sql-antlr/archive/refs/tags/{{ version }}.tar.gz
+  url: https://github.com/fugue-project/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
   sha256: f2c47e28673435b81da398df2dc3859490ad619a70974254b12e7c114e7f156c
 
 build:
@@ -22,7 +22,7 @@ requirements:
     - wheel
   run:
     - python
-    - antlr4-python3-runtime <4.12
+    - antlr4-python3-runtime >=4.11.1,<4.12
     - jinja2
     - triad >=0.6.8
     - packaging
