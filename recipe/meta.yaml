@@ -1,17 +1,16 @@
 {% set name = "fugue-sql-antlr" %}
-{% set version = "0.1.6" %}
+{% set version = "0.2.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/fugue-sql-antlr-{{ version }}.tar.gz
-  sha256: 7787bb0e8fa9e1333cd09a6fee913cae1e02ec26f91cabae9e821adf4cca4f5e
+  url: https://github.com/fugue-project/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: f2c47e28673435b81da398df2dc3859490ad619a70974254b12e7c114e7f156c
 
 build:
-  # s390x is missing triad
-  skip: true  # [py<36 or s390x]
+  skip: true  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vvv
 
@@ -22,19 +21,32 @@ requirements:
     - setuptools
     - wheel
   run:
+    - python
     - antlr4-python3-runtime >=4.11.1,<4.12
     - jinja2
-    - python
     - triad >=0.6.8
+    - packaging
+  run_constrained:
+    - fugue-sql-antlr-cpp =={{ version }}
 
 test:
   imports:
     - fugue_sql_antlr
     - fugue_sql_antlr_version
-  commands:
-    - pip check
+    - fugue_sql_antlr._parser.fugue_sqlParser
+    - fugue_sql_antlr._parser.fugue_sqlVisitor
+    - fugue_sql_antlr._parser.sa_fugue_sql
+    - fugue_sql_antlr.constants
+    - fugue_sql_antlr.parser
+    - fugue_sql_antlr.visitor
   requires:
     - pip
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    # Cannot call any upstream tests because of the following errors:
+    # E   ModuleNotFoundError: No module named 'speedy_antlr_tool'
+    # ValueError: CPP parser is not installed, use 'auto' or 'py' as parse_mode
 
 about:
   home: https://github.com/fugue-project/fugue-sql-antlr
