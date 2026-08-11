@@ -1,16 +1,16 @@
 {% set name = "fugue-sql-antlr" %}
-{% set version = "0.2.2" %}
+{% set version = "0.2.4" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/fugue-project/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: f2c47e28673435b81da398df2dc3859490ad619a70974254b12e7c114e7f156c
+  sha256: 42701c3da50b519295580bbd6f8be7c6117b909337e1c9a29ccf3d00337ca99f
 
 build:
-  skip: true  # [py<38]
+  skip: true  # [py<310]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vvv
 
@@ -22,7 +22,7 @@ requirements:
     - wheel
   run:
     - python
-    - antlr4-python3-runtime >=4.11.1,<4.12
+    - antlr4-python3-runtime >=4.13.2,<4.14
     - jinja2
     - triad >=0.6.8
     - packaging
